@@ -1,0 +1,20 @@
+{
+  "name": "tiktok-live-worker",
+  "version": "1.0.0",
+  "description": "TikTok Live monitor for AppDealAI — detects discount codes from chat",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "tiktok-live-connector": "^1.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0"
+  }
+}
