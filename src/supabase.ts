@@ -13,6 +13,7 @@ export interface MonitoredAccount {
   display_name: string
   platform_color: string
   is_active: boolean
+  auto_remove: boolean
 }
 
 // Get list of TikTok accounts to monitor
@@ -79,4 +80,14 @@ export async function markOffline(streamer: string) {
     .update({ is_live: false, viewers: 0 })
     .eq("streamer", streamer)
     .eq("platform", "tiktok")
+}
+
+// Remove account from monitored list (for auto_remove accounts)
+export async function removeMonitoredAccount(username: string) {
+  const { error } = await supabase
+    .from("tiktok_monitored")
+    .delete()
+    .eq("username", username)
+  if (error) console.error("removeMonitoredAccount:", error.message)
+  else console.log(`[${username}] 🗑️ Auto-removed from monitored list`)
 }

@@ -1,6 +1,6 @@
 import { WebcastPushConnection } from "tiktok-live-connector"
 import { detectCode, isCodeAnnouncement } from "./detector"
-import { getMonitoredAccounts, upsertStream, pushCode, markOffline, MonitoredAccount } from "./supabase"
+import { getMonitoredAccounts, upsertStream, pushCode, markOffline, removeMonitoredAccount, MonitoredAccount } from "./supabase"
 
 const RETRY_DELAY_MS  = 30_000   // 30s before retry after disconnect
 const REFRESH_LIST_MS = 5 * 60_000 // Refresh monitored list every 5 min
@@ -47,6 +47,9 @@ async function connectAccount(account: MonitoredAccount) {
     console.log(`[${username}] 🔴 Stream ended`)
     markOffline(account.display_name || username)
     activeConnections.delete(username)
+    if (account.auto_remove) {
+      removeMonitoredAccount(username)
+    }
   })
 
   conn.on("disconnected", () => {
